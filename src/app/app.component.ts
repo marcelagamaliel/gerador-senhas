@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Import necessário para *ngIf e ngModel
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -23,21 +23,34 @@ export class AppComponent {
     const simbolos = '!@#$%^&*()_+[]{}|;:,.<>?';
 
     let caracteres = minusculas;
-    if (this.usarMaiusculas) caracteres += maiusculas;
-    if (this.usarNumeros) caracteres += numeros;
-    if (this.usarSimbolos) caracteres += simbolos;
+    let senhaArray: string[] = [];
 
-    this.senhaGerada = this.gerarStringAleatoria(caracteres, this.tamanhoSenha);
+    if (this.usarMaiusculas) {
+      caracteres += maiusculas;
+      senhaArray.push(maiusculas[Math.floor(Math.random() * maiusculas.length)]);
+    }
+    if (this.usarNumeros) {
+      caracteres += numeros;
+      senhaArray.push(numeros[Math.floor(Math.random() * numeros.length)]);
+    }
+    if (this.usarSimbolos) {
+      caracteres += simbolos;
+      senhaArray.push(simbolos[Math.floor(Math.random() * simbolos.length)]);
+    }
+
+    while (senhaArray.length < this.tamanhoSenha) {
+      senhaArray.push(caracteres[Math.floor(Math.random() * caracteres.length)]);
+    }
+
+    this.senhaGerada = this.embaralharArray(senhaArray).join('');
   }
 
-  gerarStringAleatoria(base: string, comprimento: number): string {
-    let resultado = '';
-    for (let i = 0; i < comprimento; i++) {
-      const randomIndex = Math.floor(Math.random() * base.length);
-      resultado += base[randomIndex];
-      
+  embaralharArray(array: string[]): string[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-   return resultado
+    return array;
   }
 
   copiarSenha() {

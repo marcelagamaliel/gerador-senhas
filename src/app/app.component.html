@@ -1,24 +1,25 @@
 <div class="container">
   <h1>Gerador de Senha</h1>
 
-  <!-- Campos para a senha -->
-  <label for="tamanhoSenha">Tamanho da Senha</label>
+  <label for="tamanhoSenha">Escolha o tamanho da senha</label>
   <input id="tamanhoSenha" type="number" [(ngModel)]="tamanhoSenha" min="4" max="20" />
 
-  <label>
-    <input type="checkbox" [(ngModel)]="usarMaiusculas" /> Incluir maiúsculas
-  </label>
-  <label>
-    <input type="checkbox" [(ngModel)]="usarNumeros" /> Incluir números
-  </label>
-  <label>
-    <input type="checkbox" [(ngModel)]="usarSimbolos" /> Incluir símbolos
-  </label>
+  <label>O que deseja incluir na senha: </label>
 
-  <!-- Botão para gerar a senha -->
+     <div class="opcoes">
+    <label>
+      <input type="checkbox" [(ngModel)]="usarMaiusculas" /> Incluir maiúsculas
+    </label>
+    <label>
+      <input type="checkbox" [(ngModel)]="usarNumeros" /> Incluir números
+    </label>
+    <label>
+      <input type="checkbox" [(ngModel)]="usarSimbolos" /> Incluir caracteres especiais
+    </label>
+  </div>
+
   <button (click)="gerarSenha()">Gerar Senha</button>
 
-  <!-- Senha gerada (aparece só depois de gerar a senha) -->
   <div class="senha-container" *ngIf="senhaGerada">
     <input type="text" [value]="senhaGerada" readonly />
     <button (click)="copiarSenha()" class="copiar-btn">Copiar</button>
